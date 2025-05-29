@@ -56,3 +56,14 @@ class KnapsackGA:
             List of 0s and 1s representing item selection.
         """
         return [random.randint(0, 1) for _ in range(self.num_items)]
+
+    def _generate_population(self) -> list[Individual]:
+        """
+        Create a population of random individuals.
+
+        Returns
+        -------
+        list[Individual]
+            List of randomly generated individuals.
+        """
+        return [self._generate_individual() for _ in range(self.population_size)]
