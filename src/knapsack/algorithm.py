@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import random
 from typing import Literal
-import datetime
+from datetime import datetime
 
 type Individual = list[Literal[0, 1]]
 
