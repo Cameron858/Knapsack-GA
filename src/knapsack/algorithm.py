@@ -188,4 +188,61 @@ class KnapsackGA:
         fitnesses = [(i, self.evaluate(i)) for i in bracket]
         sorted_bracket = list(sorted(fitnesses, key=lambda x: x[1], reverse=True))
 
-        return sorted_bracket[0]
+        return sorted_bracket[0][0]
+
+    def run(self, generations: int = 50):
+        """"""
+        # stats
+        best_individual: Individual = None
+        best_fitness = 0
+        history = []
+
+        population = self._generate_population()
+
+        for generation in range(generations):
+
+            fitnesses = [(i, self.evaluate(i)) for i in population]
+            sorted_pop = list(sorted(fitnesses, key=lambda x: x[1], reverse=True))
+
+            # update stats
+            best_pop_ind, best_pop_fitness = sorted_pop[0]
+            if best_pop_fitness > best_fitness:
+                best_fitness = best_pop_fitness
+                best_individual = best_pop_ind
+
+            avg_pop_fitness = sum(x[1] for x in fitnesses) / len(fitnesses)
+
+            history.append((generation, best_fitness, avg_pop_fitness))
+
+            # create next generation
+            next_generation = []
+
+            # add elites
+            n_elite = max(1, int(self.elitism_rate * self.population_size))
+            elite = [x[0] for x in sorted_pop][:n_elite]
+            next_generation.extend(elite)
+
+            while len(next_generation) < self.population_size:
+                parent1 = self.tournament(population)
+                parent2 = self.tournament(population)
+
+                if random.random() < self.crossover_rate:
+                    child1, child2 = self.single_point_crossover(parent1, parent2)
+                else:
+                    child1, child2 = parent1, parent2
+
+                child1 = self.mutate(child1)
+                child2 = self.mutate(child2)
+
+                # always add one child, if theres room add another
+                next_generation.append(child1)
+                if len(next_generation) < self.population_size:
+                    next_generation.append(child2)
+
+            assert (
+                len(next_generation) == self.population_size
+            ), f"{len(next_generation)} != {self.population_size}"
+
+            population = next_generation
+
+        return best_individual, best_fitness, history
