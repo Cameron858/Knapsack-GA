@@ -1,6 +1,6 @@
 from knapsack.algorithm import Item
 
-items = [
+items: list[Item] = [
     Item("Lightsaber", value=95, weight=1.5),
     Item("Tricorder", value=80, weight=1.4),
     Item("Sonic Screwdriver", value=78, weight=0.3),
