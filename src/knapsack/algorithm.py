@@ -190,9 +190,30 @@ class KnapsackGA:
 
         return sorted_bracket[0][0]
 
-    def run(self, generations: int = 50):
-        """"""
-        # stats
+    def run(
+        self, generations: int = 50
+    ) -> tuple[Individual, float, list[tuple[int, float, float]]]:
+        """
+        Run the genetic algorithm for a given number of generations.
+
+        Evolves the population over time using selection, crossover, and mutation
+        to maximise the total value of items in the knapsack without exceeding
+        the maximum weight.
+
+        Parameters
+        ----------
+        generations : int, optional
+            The number of generations to evolve the population. Default is 50.
+
+        Returns
+        -------
+        best_individual : Individual
+            The best individual found during evolution.
+        best_fitness : float
+            The fitness value of the best individual.
+        history : list of tuple[int, float, float]
+            History of (generation, best_fitness, average_fitness) for each generation.
+        """
         best_individual: Individual = None
         best_fitness = 0
         history = []
@@ -200,28 +221,27 @@ class KnapsackGA:
         population = self._generate_population()
 
         for generation in range(generations):
+            fitnesses = [(ind, self.evaluate(ind)) for ind in population]
+            sorted_pop = sorted(fitnesses, key=lambda x: x[1], reverse=True)
 
-            fitnesses = [(i, self.evaluate(i)) for i in population]
-            sorted_pop = list(sorted(fitnesses, key=lambda x: x[1], reverse=True))
-
-            # update stats
+            # Stats update
             best_pop_ind, best_pop_fitness = sorted_pop[0]
             if best_pop_fitness > best_fitness:
                 best_fitness = best_pop_fitness
                 best_individual = best_pop_ind
 
-            avg_pop_fitness = sum(x[1] for x in fitnesses) / len(fitnesses)
-
+            avg_pop_fitness = sum(f for _, f in fitnesses) / len(fitnesses)
             history.append((generation, best_fitness, avg_pop_fitness))
 
-            # create next generation
+            # Create next generation
             next_generation = []
 
-            # add elites
+            # Elitism
             n_elite = max(1, int(self.elitism_rate * self.population_size))
-            elite = [x[0] for x in sorted_pop][:n_elite]
-            next_generation.extend(elite)
+            elites = [ind for ind, _ in sorted_pop[:n_elite]]
+            next_generation.extend(elites)
 
+            # Fill rest of next generation
             while len(next_generation) < self.population_size:
                 parent1 = self.tournament(population)
                 parent2 = self.tournament(population)
@@ -229,19 +249,18 @@ class KnapsackGA:
                 if random.random() < self.crossover_rate:
                     child1, child2 = self.single_point_crossover(parent1, parent2)
                 else:
-                    child1, child2 = parent1, parent2
+                    child1, child2 = parent1[:], parent2[:]
 
                 child1 = self.mutate(child1)
                 child2 = self.mutate(child2)
 
-                # always add one child, if theres room add another
                 next_generation.append(child1)
                 if len(next_generation) < self.population_size:
                     next_generation.append(child2)
 
             assert (
                 len(next_generation) == self.population_size
-            ), f"{len(next_generation)} != {self.population_size}"
+            ), f"Next generation size mismatch: {len(next_generation)} != {self.population_size}"
 
             population = next_generation
 
