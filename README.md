@@ -19,6 +19,35 @@ solution = [0, 1, 0, 1, 1]
 - Fitness based on total value, penalising overweight solutions
 - Configurable population size, mutation rate, crossover method, etc.
 
+## Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Cameron858/Knapsack-GA
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd knapsack-ga
+    ```
+
+3. Install [uv](https://github.com/astral-sh/uv) if not already installed:
+    ```bash
+    pipx install uv
+    ```
+
+4. Install the required dependencies using uv:
+    ```bash
+    uv pip install -r pyproject.toml
+    ```
+
+5. (Optional) Activate a virtual environment (recommended):
+    ```bash
+    python -m venv .venv
+    .venv\Scripts\activate  # On Windows
+    source .venv/bin/activate # On macOS/Linux
+    ```
+
 ## Usage Example
 
 ```python
