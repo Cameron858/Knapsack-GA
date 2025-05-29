@@ -100,3 +100,34 @@ class KnapsackGA:
             flip_bit(bit) if random.random() < self.mutation_rate else bit
             for bit in individual
         ]
+
+    def single_point_crossover(
+        self, parent1: Individual, parent2: Individual
+    ) -> tuple[Individual, Individual]:
+        """
+        Perform single-point crossover between two parent individuals.
+
+        A random crossover point is selected (excluding the ends), and
+        two offspring are created by exchanging bits.
+
+        Parameters
+        ----------
+        parent1 : Individual
+            The first parent represented as a list of binary genes.
+
+        parent2 : Individual
+            The second parent represented as a list of binary genes.
+
+        Returns
+        -------
+        tuple[Individual, Individual]
+            Two offspring individuals resulting from crossover.
+        """
+        assert len(parent1) == len(parent2), "Parents must be of equal length"
+
+        split_index = random.randint(1, len(parent1) - 1)
+
+        child1 = parent1[:split_index] + parent2[split_index:]
+        child2 = parent2[:split_index] + parent1[split_index:]
+
+        return child1, child2
