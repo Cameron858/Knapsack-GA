@@ -1,4 +1,8 @@
 from dataclasses import dataclass
+import random
+from typing import Literal
+
+type Individual = list[Literal[0, 1]]
 
 
 @dataclass
@@ -37,3 +41,18 @@ class KnapsackGA:
             f"mutation_rate={self.mutation_rate:.2f}, "
             f"elitism_rate={self.elitism_rate:.2f})"
         )
+
+    def _generate_individual(self) -> Individual:
+        """
+        Create a random individual for the genetic algorithm population.
+
+        An individual is represented as a list of binary genes (0 or 1),
+        where each element indicates whether the corresponding item is excluded (0) or included (1).
+        The list length equals the number of items available.
+
+        Returns
+        -------
+        Individual
+            List of 0s and 1s representing item selection.
+        """
+        return [random.randint(0, 1) for _ in range(self.num_items)]
