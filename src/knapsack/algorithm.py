@@ -226,7 +226,7 @@ class KnapsackGA:
 
     def run(
         self, generations: int = 50
-    ) -> tuple[Individual, float, list[tuple[int, float, float]]]:
+    ) -> tuple[list[Item], float, list[tuple[int, float, float]]]:
         """
         Run the genetic algorithm for a given number of generations.
 
@@ -241,8 +241,8 @@ class KnapsackGA:
 
         Returns
         -------
-        best_individual : Individual
-            The best individual found during evolution.
+        list[Item]
+            The best individual found during evolution decoded into the original items.
         best_fitness : float
             The fitness value of the best individual.
         history : list of tuple[int, float, float]
