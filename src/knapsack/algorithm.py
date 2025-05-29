@@ -141,10 +141,10 @@ class KnapsackGA:
         Parameters
         ----------
         parent1 : Individual
-            The first parent represented as a list of binary genes.
+            A list of binary genes (0 or 1) representing the individual.
 
         parent2 : Individual
-            The second parent represented as a list of binary genes.
+            A list of binary genes (0 or 1) representing the individual.
 
         Returns
         -------
