@@ -22,6 +22,16 @@ class KnapsackGA:
         mutation_rate: float = 0.1,
         elitism_rate: float = 0.1,
     ):
+        # value checks
+        if not (0 <= crossover_rate <= 1):
+            raise ValueError("Crossover rate must be between 0 and 1.")
+
+        if not (0 <= mutation_rate <= 1):
+            raise ValueError("Crossover rate must be between 0 and 1.")
+
+        if not (0 <= elitism_rate <= 1):
+            raise ValueError("Crossover rate must be between 0 and 1.")
+
         self.items = items
         self.num_items = len(items)
         self.max_weight = max_weight
