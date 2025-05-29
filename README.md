@@ -17,6 +17,7 @@ Key Learnings
 - Developed tools to track performance and convergence over generations with meaningful visualisations.
 - Leveraged Python's data and plotting libraries to manage experiments and present results clearly.
 - Understood the strengths and limitations of genetic algorithms for NP-hard problems, motivating further study into multi-objective optimisation and hybrid approaches.
+- Basics of using `uv` for dependency management
 
 ### Example
 ```python
