@@ -18,3 +18,58 @@ solution = [0, 1, 0, 1, 1]
 - Binary-encoded representation of solutions
 - Fitness based on total value, penalising overweight solutions
 - Configurable population size, mutation rate, crossover method, etc.
+
+## Usage Example
+
+```python
+from knapsack.algorithm import KnapsackGA, Item
+
+# Define items
+items = [
+    Item(name="A", value=10, weight=5),
+    Item(name="B", value=7, weight=3),
+    Item(name="C", value=12, weight=8),
+    Item(name="D", value=8, weight=4),
+]
+
+# Initialize GA
+knapsack = KnapsackGA(
+    items=items,
+    max_weight=10,
+    population_size=30,
+    crossover_rate=0.8,
+    mutation_rate=0.1,
+    elitism_rate=0.1,
+)
+
+# Run the algorithm
+selected_items, best_fitness, history = knapsack.run(generations=50)
+
+print("Best value:", best_fitness)
+print("Selected items:", [item.name for item in selected_items])
+```
+
+## Parameters
+- `items`: List of `Item` objects (each with `name`, `value`, `weight`)
+- `max_weight`: Maximum total weight allowed in the knapsack
+- `population_size`: Number of individuals in each generation
+- `crossover_rate`: Probability of crossover between parents (default: 0.8)
+- `mutation_rate`: Probability of mutating each gene (default: 0.1)
+- `elitism_rate`: Fraction of top individuals carried to next generation (default: 0.1)
+- `generations`: Number of generations to run (default: 50)
+
+## Output
+- `selected_items`: List of `Item` objects chosen in the best solution
+- `best_fitness`: Total value of the best solution
+- `history`: List of tuples `(generation, best_fitness, average_fitness)` for each generation
+
+## Customisation
+- You can modify the list of items, knapsack capacity, and GA parameters to suit your problem.
+- The algorithm uses tournament selection, single-point crossover, mutation, and elitism.
+
+## Dependencies
+
+This project was written in python 3.13. Project dependencies can be found in `pyproject.toml`.
+
+## Source Code
+See `src/knapsack/algorithm.py` for implementation details.
