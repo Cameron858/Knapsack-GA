@@ -68,6 +68,34 @@ class KnapsackGA:
         """
         return [self._generate_individual() for _ in range(self.population_size)]
 
+    def evaluate(self, individual: Individual) -> float:
+        """
+        Evaluate the fitness of an individual.
+
+        The fitness is the total value of selected items, unless the total weight
+        exceeds the knapsack capacity, in which case the fitness is 0.
+
+        Parameters
+        ----------
+        individual : Individual
+            A list of binary genes (0 or 1) representing the individual.
+
+        Returns
+        -------
+        float
+            The total value of selected items, or 0 if overweight.
+        """
+        weight = sum(
+            item.weight for item, selected in zip(self.items, individual) if selected
+        )
+
+        if weight > self.max_weight:
+            return 0.0
+
+        return sum(
+            item.value for item, selected in zip(self.items, individual) if selected
+        )
+
     def mutate(self, individual: Individual) -> Individual:
         """
         Mutate an individual's genes independently with a probability defined by mutation_rate.
@@ -131,3 +159,11 @@ class KnapsackGA:
         child2 = parent2[:split_index] + parent1[split_index:]
 
         return child1, child2
+
+    def tournament(self, population: list[Individual], k=5) -> Individual:
+
+        assert k <= len(
+            population
+        ), "Cannot select k individuals as k is greater than the size of the population."
+
+        bracket = random.sample(population, k=k)
