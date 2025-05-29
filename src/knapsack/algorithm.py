@@ -249,9 +249,7 @@ class KnapsackGA:
         """
         return [item for item, selected in zip(self.items, individual) if selected]
 
-    def run(
-        self, generations: int = 50
-    ) -> tuple[list[Item], float, list[tuple[int, float, float]]]:
+    def run(self, generations: int = 50) -> tuple[list[Item], GAResult]:
         """
         Run the genetic algorithm for a given number of generations.
 
@@ -268,10 +266,8 @@ class KnapsackGA:
         -------
         list[Item]
             The best individual found during evolution decoded into the original items.
-        best_fitness : float
-            The fitness value of the best individual.
-        history : list of tuple[int, float, float]
-            History of (generation, best_fitness, average_fitness) for each generation.
+        result : GAResult
+            Result object containing useful metadata.
         """
         best_individual: Individual = None
         best_fitness = 0
@@ -323,4 +319,6 @@ class KnapsackGA:
 
             population = next_generation
 
-        return self.decode_individual(best_individual), best_fitness, history
+        result = GAResult(best_individual, best_fitness, history, 0, generations)
+
+        return self.decode_individual(best_individual), result
