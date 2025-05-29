@@ -12,6 +12,16 @@ class Item:
     weight: float
 
 
+@dataclass
+class GAResult:
+    best_individual: Individual
+    best_fitness: float
+    # (generation, best_fitness, avg_fitness)
+    history: list[tuple[int, float, float]]
+    runtime: float
+    generations: int
+
+
 class KnapsackGA:
     def __init__(
         self,
