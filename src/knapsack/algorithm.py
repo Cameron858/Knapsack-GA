@@ -185,7 +185,7 @@ class KnapsackGA:
             )
 
         bracket = random.sample(population, k=k)
-        fitnesses = [self.evaluate(ind) for ind in bracket]
-        fittest_index = max(range(k), key=lambda i: fitnesses[i])
+        fitnesses = [(i, self.evaluate(i)) for i in bracket]
+        sorted_bracket = list(sorted(fitnesses, key=lambda x: x[1], reverse=True))
 
-        return bracket[fittest_index]
+        return sorted_bracket[0]
