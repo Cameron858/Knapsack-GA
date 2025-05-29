@@ -160,10 +160,32 @@ class KnapsackGA:
 
         return child1, child2
 
-    def tournament(self, population: list[Individual], k=5) -> Individual:
+    def tournament(self, population: list[Individual], k: int = 5) -> Individual:
+        """
+        Select the fittest individual from a random tournament bracket.
 
-        assert k <= len(
-            population
-        ), "Cannot select k individuals as k is greater than the size of the population."
+        Randomly samples `k` individuals from the population and returns the one
+        with the highest fitness.
+
+        Parameters
+        ----------
+        population : list of Individual
+            The current population of individuals.
+        k : int, optional
+            Number of individuals in the tournament bracket. Default is 5.
+
+        Returns
+        -------
+        Individual
+            The fittest individual from the tournament.
+        """
+        if k > len(population):
+            raise ValueError(
+                f"Cannot run tournament: k={k} is greater than population size={len(population)}."
+            )
 
         bracket = random.sample(population, k=k)
+        fitnesses = [self.evaluate(ind) for ind in bracket]
+        fittest_index = max(range(k), key=lambda i: fitnesses[i])
+
+        return bracket[fittest_index]
