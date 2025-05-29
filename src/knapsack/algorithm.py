@@ -67,3 +67,36 @@ class KnapsackGA:
             List of randomly generated individuals.
         """
         return [self._generate_individual() for _ in range(self.population_size)]
+
+    def mutate(self, individual: Individual) -> Individual:
+        """
+        Mutate an individual's genes independently with a probability defined by mutation_rate.
+
+        Each gene (bit) in the individual has a chance to be flipped:
+        0 becomes 1, and 1 becomes 0.
+
+        Parameters
+        ----------
+        individual : Individual
+            A list of binary genes (0 or 1) representing the individual.
+
+        Returns
+        -------
+        Individual
+            A new list representing the mutated individual.
+
+        Raises
+        ------
+        ValueError
+            If any gene in the individual is not 0 or 1.
+        """
+
+        def flip_bit(bit):
+            if bit not in (0, 1):
+                raise ValueError(f"Bit value needs to be 0 or 1, got {bit}")
+            return 1 - bit  # simpler flip logic
+
+        return [
+            flip_bit(bit) if random.random() < self.mutation_rate else bit
+            for bit in individual
+        ]
