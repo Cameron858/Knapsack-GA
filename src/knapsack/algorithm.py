@@ -68,6 +68,24 @@ class KnapsackGA:
         """
         return [self._generate_individual() for _ in range(self.population_size)]
 
+    def params(self) -> dict:
+        """
+        Return the parameters of the genetic algorithm instance.
+
+        Returns
+        -------
+        dict
+            A dictionary of the GA configuration parameters.
+        """
+        return {
+            "num_items": self.num_items,
+            "max_weight": self.max_weight,
+            "population_size": self.population_size,
+            "crossover_rate": self.crossover_rate,
+            "mutation_rate": self.mutation_rate,
+            "elitism_rate": self.elitism_rate,
+        }
+
     def evaluate(self, individual: Individual) -> float:
         """
         Evaluate the fitness of an individual.
