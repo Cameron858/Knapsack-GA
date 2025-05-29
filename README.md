@@ -8,6 +8,16 @@ This project applies a genetic algorithm to solve the classic 0/1 knapsack probl
 
 Each potential solution (individual) is encoded as a binary chromosome, where each bit corresponds to whether an item is included (1) or not (0).
 
+Key Learnings
+- Gained a solid understanding of genetic algorithm components such as representation, fitness evaluation, selection, crossover, mutation, and elitism.
+- Implemented GA operators from scratch in Python, emphasising modular and clear code structure.
+- Explored the balance between exploration and exploitation during the evolutionary search process.
+- Compared brute-force and heuristic approaches, highlighting the efficiency benefits of genetic algorithms for combinatorial optimisation problems like knapsack.
+- Applied tournament selection and single-point crossover techniques to evolve the population effectively.
+- Developed tools to track performance and convergence over generations with meaningful visualisations.
+- Leveraged Python's data and plotting libraries to manage experiments and present results clearly.
+- Understood the strengths and limitations of genetic algorithms for NP-hard problems, motivating further study into multi-objective optimisation and hybrid approaches.
+
 ### Example
 ```python
 # Items 2, 4 and 5 are chosen to be in the knapsack
