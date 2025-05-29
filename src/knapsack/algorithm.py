@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import random
 from typing import Literal
+import datetime
 
 type Individual = list[Literal[0, 1]]
 
@@ -269,6 +270,8 @@ class KnapsackGA:
         result : GAResult
             Result object containing useful metadata.
         """
+        start_time = datetime.now()
+
         best_individual: Individual = None
         best_fitness = 0
         history = []
@@ -319,6 +322,11 @@ class KnapsackGA:
 
             population = next_generation
 
-        result = GAResult(best_individual, best_fitness, history, 0, generations)
+        end_time = datetime.now()
+        elapsed_time = (end_time - start_time).total_seconds()
+
+        result = GAResult(
+            best_individual, best_fitness, history, elapsed_time, generations
+        )
 
         return self.decode_individual(best_individual), result
