@@ -190,6 +190,22 @@ class KnapsackGA:
 
         return sorted_bracket[0][0]
 
+    def decode_individual(self, individual: Individual) -> list[Item]:
+        """
+        Decode a binary individual into a list of selected items.
+
+        Parameters
+        ----------
+        individual : Individual
+            A binary-encoded list representing item inclusion.
+
+        Returns
+        -------
+        list of Item
+            The list of items selected by the individual.
+        """
+        return [item for item, selected in zip(self.items, individual) if selected]
+
     def run(
         self, generations: int = 50
     ) -> tuple[Individual, float, list[tuple[int, float, float]]]:
@@ -264,4 +280,4 @@ class KnapsackGA:
 
             population = next_generation
 
-        return best_individual, best_fitness, history
+        return self.decode_individual(best_individual), best_fitness, history
