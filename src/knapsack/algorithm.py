@@ -62,8 +62,7 @@ class KnapsackGA:
         """
         Create a random individual for the genetic algorithm population.
 
-        An individual is represented as a list of binary genes (0 or 1),
-        where each element indicates whether the corresponding item is excluded (0) or included (1).
+        Each gene indicates whether the corresponding item is included (1) or excluded (0).
         The list length equals the number of items available.
 
         Returns
