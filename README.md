@@ -72,10 +72,22 @@ knapsack = KnapsackGA(
 )
 
 # Run the algorithm
-selected_items, best_fitness, history = knapsack.run(generations=50)
+selected_items, result = knapsack.run(generations=50)
 
-print("Best value:", best_fitness)
+print("Best value:", result.best_fitness)
 print("Selected items:", [item.name for item in selected_items])
+print(f"Runtime: {result.runtime:.3f} seconds for {result.generations} generations")
+
+# result.history contains (generation, best_fitness, avg_fitness) for each generation
+
+## Output
+- `selected_items`: List of `Item` objects chosen in the best solution
+- `result`: `GAResult` object with:
+  - `best_individual`: The best solution as a binary list
+  - `best_fitness`: Total value of the best solution
+  - `history`: List of tuples `(generation, best_fitness, average_fitness)` for each generation
+  - `runtime`: Total runtime in seconds
+  - `generations`: Number of generations run
 ```
 
 ## Parameters
@@ -86,11 +98,6 @@ print("Selected items:", [item.name for item in selected_items])
 - `mutation_rate`: Probability of mutating each gene (default: 0.1)
 - `elitism_rate`: Fraction of top individuals carried to next generation (default: 0.1)
 - `generations`: Number of generations to run (default: 50)
-
-## Output
-- `selected_items`: List of `Item` objects chosen in the best solution
-- `best_fitness`: Total value of the best solution
-- `history`: List of tuples `(generation, best_fitness, average_fitness)` for each generation
 
 ## Customisation
 - You can modify the list of items, knapsack capacity, and GA parameters to suit your problem.
