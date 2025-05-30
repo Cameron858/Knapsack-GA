@@ -137,3 +137,11 @@ def test_that_mutation_applies_based_on_probability(mocker, test_items):
     expected = [1, 0, 0, 1, 1]
 
     assert ind_post_mutation == expected
+
+
+def test_that_mutating_invalid_individual_raises_value_error(test_items):
+    ga = KnapsackGA(test_items, 0, 10, mutation_rate=1)
+    invalid_individual = [0, 2, 1]  # 2 is invalid
+
+    with pytest.raises(ValueError, match="Bit value needs to be 0 or 1"):
+        ga.mutate(invalid_individual)
