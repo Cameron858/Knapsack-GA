@@ -55,9 +55,13 @@ solution = [0, 1, 0, 1, 1]
     uv pip install -r pyproject.toml
     ```
 
-5. (Optional) Activate a virtual environment (recommended):
+5. (Optional) Run tests to verify the installation:
     ```bash
-    python -m venv .venv
+    uv run pytest
+    ```
+
+6. (Optional) Activate a virtual environment (recommended):
+    ```bash
     .venv\Scripts\activate  # On Windows
     source .venv/bin/activate # On macOS/Linux
     ```
