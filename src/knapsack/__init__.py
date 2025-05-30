@@ -1,1 +1,1 @@
-from .algorithm import KnapsackGA
+from .algorithm import KnapsackGA, Item
