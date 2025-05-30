@@ -103,3 +103,37 @@ def test_that_evaluating_an_individual_returns_correct_values(
 
     value = ga.evaluate(individual)
     assert value == expected_value
+
+
+def test_that_mutating_with_zero_rate_produces_no_mutation(test_items):
+    ga = KnapsackGA(test_items, 0, 10, mutation_rate=0)
+
+    ind_pre_mutation = ga._generate_individual()
+
+    ind_post_mutation = ga.mutate(ind_pre_mutation)
+
+    assert ind_post_mutation == ind_pre_mutation
+
+
+def test_that_mutating_with_one_rate_always_produces_mutation(test_items):
+    ga = KnapsackGA(test_items, 0, 10, mutation_rate=1)
+
+    ind_pre_mutation = ga._generate_individual()
+    expected_individual = [1 - bit for bit in ind_pre_mutation]
+
+    ind_post_mutation = ga.mutate(ind_pre_mutation)
+
+    assert ind_post_mutation == expected_individual
+
+
+def test_that_mutation_applies_based_on_probability(mocker, test_items):
+    ga = KnapsackGA(test_items, 0, 10, mutation_rate=0.5)
+    ind_pre_mutation = [1, 1, 0, 0, 1]
+
+    # Patch to return values causing mutation only for index 1 and 3
+    mocker.patch("random.random", side_effect=[0.6, 0.4, 0.8, 0.3, 0.9])
+
+    ind_post_mutation = ga.mutate(ind_pre_mutation)
+    expected = [1, 0, 0, 1, 1]
+
+    assert ind_post_mutation == expected
