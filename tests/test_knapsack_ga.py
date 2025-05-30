@@ -145,3 +145,13 @@ def test_that_mutating_invalid_individual_raises_value_error(test_items):
 
     with pytest.raises(ValueError, match="Bit value needs to be 0 or 1"):
         ga.mutate(invalid_individual)
+
+
+def test_that_mutate_does_not_modify_input_in_place(test_items):
+    ga = KnapsackGA(test_items, 0, 10, mutation_rate=1)
+    ind_pre_mutation = [0, 1, 0, 1]
+    ind_copy = ind_pre_mutation[:]
+
+    ga.mutate(ind_pre_mutation)
+
+    assert ind_pre_mutation == ind_copy  # ensure no in-place change
