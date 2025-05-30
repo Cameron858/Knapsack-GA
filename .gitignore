@@ -11,3 +11,6 @@ wheels/
 
 # Figures
 *.png
+
+# pytest
+*.coverage
