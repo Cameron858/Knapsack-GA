@@ -21,3 +21,19 @@ def test_that_algorithm_runs_with_standard_params(test_items):
     assert hasattr(result, "history")
     assert hasattr(result, "runtime")
     assert hasattr(result, "generations")
+
+
+def test_that_each_generation_has_recorded_history(test_items):
+    n_generations = 50
+    ga = KnapsackGA(
+        items=test_items,
+        max_weight=20,
+        population_size=50,
+        seed=19,
+    )
+    solution, result = ga.run(generations=n_generations)
+
+    assert len(result.history) == n_generations, "History is incorrect length."
+    assert all(
+        len(h) == 3 for h in result.history
+    ), "History contains mismatched record lengths."
