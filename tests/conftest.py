@@ -3,7 +3,7 @@ from knapsack import Item
 
 
 @pytest.fixture
-def items() -> list[Item]:
+def test_items() -> list[Item]:
     """Fixture providing a small list of test items."""
     return [
         Item(name="item1", value=10, weight=5),
