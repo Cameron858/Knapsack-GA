@@ -39,10 +39,10 @@ class KnapsackGA:
             raise ValueError("Crossover rate must be between 0 and 1.")
 
         if not (0 <= mutation_rate <= 1):
-            raise ValueError("Crossover rate must be between 0 and 1.")
+            raise ValueError("Mutation rate must be between 0 and 1.")
 
         if not (0 <= elitism_rate <= 1):
-            raise ValueError("Crossover rate must be between 0 and 1.")
+            raise ValueError("Elitism rate must be between 0 and 1.")
 
         # set seed if given
         if seed is not None:
