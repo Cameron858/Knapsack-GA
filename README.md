@@ -114,6 +114,14 @@ print(f"Runtime: {result.runtime:.3f} seconds for {result.generations} generatio
 - You can modify the list of items, knapsack capacity, and GA parameters to suit your problem.
 - The algorithm uses tournament selection, single-point crossover, mutation, and elitism.
 
+## Future Work
+- **Alternative operators:** Experiment with different selection, crossover, or mutation strategies.
+- **Constraint variations:** Add support for additional constraints (e.g., grouped items, minimum/maximum item counts).
+- **Performance improvements:** Profile and parallelize the code for larger problem instances.
+- **Visualization:** Enhance result and convergence visualisations, or add interactive dashboards.
+- **Benchmarking:** Compare GA results with other algorithms (e.g., simulated annealing, particle swarm, or exact solvers).
+- **Experiment tracking:** Automate experiment management and result logging for reproducibility.
+
 ## Dependencies
 
 This project was written in python 3.13. Project dependencies can be found in `pyproject.toml`.
