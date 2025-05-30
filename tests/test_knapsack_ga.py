@@ -69,7 +69,7 @@ def test_that_seed_creates_reproducible_results():
 
 
 def test_that_generate_individual_has_correct_length_and_binary_values(test_items):
-    ga = KnapsackGA(items=test_items, max_weight=20, population_size=10, seed=42)
+    ga = KnapsackGA(items=test_items, max_weight=20, population_size=10, seed=19)
     individual = ga._generate_individual()
 
     assert len(individual) == len(test_items)
@@ -77,7 +77,7 @@ def test_that_generate_individual_has_correct_length_and_binary_values(test_item
 
 
 def test_that_generate_population_has_correct_size_and_valid_individuals(test_items):
-    ga = KnapsackGA(items=test_items, max_weight=20, population_size=5, seed=42)
+    ga = KnapsackGA(items=test_items, max_weight=20, population_size=5, seed=19)
     population = ga._generate_population()
 
     assert len(population) == ga.population_size
@@ -85,3 +85,10 @@ def test_that_generate_population_has_correct_size_and_valid_individuals(test_it
     for individual in population:
         assert len(individual) == len(test_items)
         assert all(gene in (0, 1) for gene in individual)
+
+
+@pytest.mark.parametrize("individual, expected_value", [[0, 0, 0, 0, 0]])
+def test_that_evaluating_an_individual_returns_correct_values(
+    individual, expected_value, test_items
+):
+    pass
