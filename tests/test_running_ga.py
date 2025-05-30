@@ -37,3 +37,27 @@ def test_that_each_generation_has_recorded_history(test_items):
     assert all(
         len(h) == 3 for h in result.history
     ), "History contains mismatched record lengths."
+
+
+def test_that_best_fitness_improves_over_generations(test_items):
+    ga = KnapsackGA(
+        items=test_items,
+        max_weight=20,
+        population_size=10,
+        seed=123,
+    )
+    _, result = ga.run(50)
+    best_fitness_over_time = [h[1] for h in result.history]
+    assert best_fitness_over_time[-1] >= best_fitness_over_time[0]
+
+
+def test_that_avg_fitness_improves_over_generations(test_items):
+    ga = KnapsackGA(
+        items=test_items,
+        max_weight=20,
+        population_size=10,
+        seed=123,
+    )
+    _, result = ga.run(50)
+    avg_fitness_over_time = [h[2] for h in result.history]
+    assert avg_fitness_over_time[-1] >= avg_fitness_over_time[0]
