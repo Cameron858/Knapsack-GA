@@ -19,22 +19,28 @@ def test_that_init_raises_value_error_for_invalid_item_type():
 @pytest.mark.parametrize(
     "rate", [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 )
-def test_that_knapsack_doesnt_raise_value_error_for_valid_crossover_rates(rate):
-    KnapsackGA([], 0, 10, crossover_rate=rate)
+def test_that_knapsack_doesnt_raise_value_error_for_valid_crossover_rates(
+    rate, test_items
+):
+    KnapsackGA(test_items, 0, 10, crossover_rate=rate)
 
 
 @pytest.mark.parametrize(
     "rate", [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 )
-def test_that_knapsack_doesnt_raise_value_error_for_valid_mutation_rates(rate):
-    KnapsackGA([], 0, 10, mutation_rate=rate)
+def test_that_knapsack_doesnt_raise_value_error_for_valid_mutation_rates(
+    rate, test_items
+):
+    KnapsackGA(test_items, 0, 10, mutation_rate=rate)
 
 
 @pytest.mark.parametrize(
     "rate", [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 )
-def test_that_knapsack_doesnt_raise_value_error_for_valid_elitism_rates(rate):
-    KnapsackGA([], 0, 10, elitism_rate=rate)
+def test_that_knapsack_doesnt_raise_value_error_for_valid_elitism_rates(
+    rate, test_items
+):
+    KnapsackGA(test_items, 0, 10, elitism_rate=rate)
 
 
 invalid_rates = [
@@ -51,32 +57,32 @@ invalid_rates = [
 
 
 @pytest.mark.parametrize("rate", invalid_rates)
-def test_that_knapsack_raises_value_error_for_invalid_crossover_rates(rate):
+def test_that_knapsack_raises_value_error_for_invalid_crossover_rates(rate, test_items):
 
     with pytest.raises(ValueError, match="Crossover rate must be between 0 and 1."):
-        KnapsackGA([], 0, 10, crossover_rate=rate)
+        KnapsackGA(test_items, 0, 10, crossover_rate=rate)
 
 
 @pytest.mark.parametrize("rate", invalid_rates)
-def test_that_knapsack_raises_value_error_for_invalid_mutation_rates(rate):
+def test_that_knapsack_raises_value_error_for_invalid_mutation_rates(rate, test_items):
     with pytest.raises(ValueError, match="Mutation rate must be between 0 and 1."):
-        KnapsackGA([], 0, 10, mutation_rate=rate)
+        KnapsackGA(test_items, 0, 10, mutation_rate=rate)
 
 
 @pytest.mark.parametrize("rate", invalid_rates)
-def test_that_knapsack_raises_value_error_for_invalid_elitism_rates(rate):
+def test_that_knapsack_raises_value_error_for_invalid_elitism_rates(rate, test_items):
     with pytest.raises(ValueError, match="Elitism rate must be between 0 and 1."):
-        KnapsackGA([], 0, 10, elitism_rate=rate)
+        KnapsackGA(test_items, 0, 10, elitism_rate=rate)
 
 
-def test_that_seed_creates_reproducible_results():
+def test_that_seed_creates_reproducible_results(test_items):
     # arbitary, as long as both instances get the same seed
     seed = 19
 
-    ga1 = KnapsackGA([], 0, 10, seed=seed)
-    ga2 = KnapsackGA([], 0, 10, seed=seed)
-
+    ga1 = KnapsackGA(test_items, 0, 10, seed=seed)
     pop1 = ga1._generate_population()
+
+    ga2 = KnapsackGA(test_items, 0, 10, seed=seed)
     pop2 = ga2._generate_population()
 
     assert pop1 == pop2
@@ -171,13 +177,10 @@ def test_that_mutate_does_not_modify_input_in_place(test_items):
     assert ind_pre_mutation == ind_copy  # ensure no in-place change
 
 
-import pytest
-
-
-def test_that_single_point_crossover_produces_valid_children(mocker):
+def test_that_single_point_crossover_produces_valid_children(mocker, test_items):
     parent1 = [0, 0, 0, 0, 0]
     parent2 = [1, 1, 1, 1, 1]
-    ga = KnapsackGA([], 0, 10)
+    ga = KnapsackGA(test_items, 0, 10)
 
     # Mock the crossover point to a known value
     mocker.patch("random.randint", return_value=2)
@@ -188,10 +191,10 @@ def test_that_single_point_crossover_produces_valid_children(mocker):
     assert child2 == [1, 1, 0, 0, 0]
 
 
-def test_that_single_point_crossover_with_split_at_one(mocker):
+def test_that_single_point_crossover_with_split_at_one(mocker, test_items):
     parent1 = [1, 1, 1]
     parent2 = [0, 0, 0]
-    ga = KnapsackGA([], 0, 10)
+    ga = KnapsackGA(test_items, 0, 10)
 
     mocker.patch("random.randint", return_value=1)
 
@@ -201,10 +204,10 @@ def test_that_single_point_crossover_with_split_at_one(mocker):
     assert child2 == [0, 1, 1]
 
 
-def test_that_single_point_crossover_with_split_at_end_minus_one(mocker):
+def test_that_single_point_crossover_with_split_at_end_minus_one(mocker, test_items):
     parent1 = [1, 0, 0]
     parent2 = [0, 1, 1]
-    ga = KnapsackGA([], 0, 10)
+    ga = KnapsackGA(test_items, 0, 10)
 
     mocker.patch("random.randint", return_value=2)
 
@@ -214,10 +217,10 @@ def test_that_single_point_crossover_with_split_at_end_minus_one(mocker):
     assert child2 == [0, 1, 0]
 
 
-def test_that_crossover_raises_error_on_unequal_length():
+def test_that_crossover_raises_error_on_unequal_length(test_items):
     parent1 = [1, 1, 1]
     parent2 = [0, 0]
-    ga = KnapsackGA([], 0, 10)
+    ga = KnapsackGA(test_items, 0, 10)
 
     with pytest.raises(AssertionError, match="Parents must be of equal length"):
         ga.single_point_crossover(parent1, parent2)
