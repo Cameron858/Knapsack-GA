@@ -35,6 +35,13 @@ class KnapsackGA:
         seed: int | None = None,
     ):
         # value checks
+        if (
+            not isinstance(items, list)
+            or not items
+            or not all(isinstance(i, Item) for i in items)
+        ):
+            raise ValueError("`items` must be a non-empty list of Item objects.")
+
         if not (0 <= crossover_rate <= 1):
             raise ValueError("Crossover rate must be between 0 and 1.")
 
