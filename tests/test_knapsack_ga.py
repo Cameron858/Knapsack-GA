@@ -3,12 +3,16 @@ import pytest
 
 
 def test_that_init_raises_value_error_for_empty_items():
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="`items` must be a non-empty list of Item objects."
+    ):
         KnapsackGA(items=[], max_weight=10, population_size=5)
 
 
 def test_that_init_raises_value_error_for_invalid_item_type():
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="`items` must be a non-empty list of Item objects."
+    ):
         KnapsackGA(items=["not", "items"], max_weight=10, population_size=5)
 
 
