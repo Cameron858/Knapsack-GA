@@ -131,3 +131,5 @@ This project was written in python 3.13. Project dependencies can be found in `p
 
 ## Source Code
 See `src/knapsack/algorithm.py` for implementation details.
+
+P.S: I do *usually* use proper branch management i.e. GitFlow, but for a project like this I just wanted to code :) 
