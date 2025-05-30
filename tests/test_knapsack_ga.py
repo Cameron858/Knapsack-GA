@@ -241,3 +241,18 @@ def test_that_tournament_with_k_smaller_than_population_returns_population_membe
 
     winner = ga.tournament(population, k=3)
     assert winner in population
+
+
+@pytest.mark.parametrize(
+    "individual", [[1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 1, 0, 1, 0], [1, 0, 1, 0, 1]]
+)
+def test_that_decoding_an_individual_returns_correct_items(individual, test_items):
+    ga = KnapsackGA(test_items, 100, 50)
+
+    items = ga.decode_individual(individual)
+
+    expected_items = [
+        item for item, selected in zip(test_items, individual) if selected
+    ]
+
+    assert items == expected_items
