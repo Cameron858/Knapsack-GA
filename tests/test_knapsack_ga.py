@@ -207,3 +207,27 @@ def test_that_crossover_raises_error_on_unequal_length():
 
     with pytest.raises(AssertionError, match="Parents must be of equal length"):
         ga.single_point_crossover(parent1, parent2)
+
+
+def test_that_tournament_returns_highest_fitness_individual(mocker, test_items):
+    ga = KnapsackGA(test_items, max_weight=100, population_size=10)
+    population = [
+        [0, 0, 0, 0, 0],  # value 0
+        [0, 0, 0, 0, 0],  # value 0
+        [0, 0, 0, 0, 0],  # value 0
+        [0, 0, 0, 0, 0],  # value 0
+        [1, 0, 1, 0, 0],  # value 25
+    ]
+
+    mocker.patch("random.sample", return_value=population)
+
+    winner = ga.tournament(population, k=5)
+    assert winner == [1, 0, 1, 0, 0]  # highest value: 25
+
+
+def test_that_tournament_raises_value_error_with_k_greater_than_population(test_items):
+    ga = KnapsackGA(test_items, max_weight=100, population_size=5)
+    population = [[0, 1, 0, 0, 0]] * 3
+
+    with pytest.raises(ValueError, match="k=5 is greater than population size=3"):
+        ga.tournament(population, k=5)
