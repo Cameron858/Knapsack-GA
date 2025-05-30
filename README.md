@@ -8,6 +8,9 @@ This project applies a genetic algorithm to solve the classic 0/1 knapsack probl
 
 Each potential solution (individual) is encoded as a binary chromosome, where each bit corresponds to whether an item is included (1) or not (0).
 
+### Algorithm Flowchart
+<img src="docs/algorithm.svg" width="600" height="600" alt="Flowchart illustrating the steps of a genetic algorithm for solving the 0/1 knapsack problem. The process starts with initializing GA parameters, generating the initial population, and evaluating the fitness of each individual. It checks if the stopping condition is met. If not, it selects parents via tournament, applies crossover to produce offspring, applies mutation to offspring, and evaluates the fitness of offspring. The new population is formed and the process repeats. If the stopping condition is met, the best solution is returned and the algorithm ends. The flowchart includes decision points labeled Yes and No, and all process steps are clearly labeled with descriptive text. The overall tone is instructional and methodical, supporting understanding of the genetic algorithm workflow." />
+
 Key Learnings
 - Gained a solid understanding of genetic algorithm components such as representation, fitness evaluation, selection, crossover, mutation, and elitism.
 - Implemented GA operators from scratch in Python, emphasising modular and clear code structure.
