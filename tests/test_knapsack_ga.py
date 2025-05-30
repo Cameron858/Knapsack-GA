@@ -66,9 +66,22 @@ def test_that_seed_creates_reproducible_results():
     pop2 = ga2._generate_population()
 
     assert pop1 == pop2
+
+
 def test_that_generate_individual_has_correct_length_and_binary_values(test_items):
     ga = KnapsackGA(items=test_items, max_weight=20, population_size=10, seed=42)
     individual = ga._generate_individual()
 
     assert len(individual) == len(test_items)
     assert all(gene in (0, 1) for gene in individual)
+
+
+def test_that_generate_population_has_correct_size_and_valid_individuals(test_items):
+    ga = KnapsackGA(items=test_items, max_weight=20, population_size=5, seed=42)
+    population = ga._generate_population()
+
+    assert len(population) == ga.population_size
+
+    for individual in population:
+        assert len(individual) == len(test_items)
+        assert all(gene in (0, 1) for gene in individual)
