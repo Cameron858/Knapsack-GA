@@ -2,6 +2,16 @@ from knapsack import KnapsackGA
 import pytest
 
 
+def test_that_init_raises_value_error_for_empty_items():
+    with pytest.raises(ValueError):
+        KnapsackGA(items=[], max_weight=10, population_size=5)
+
+
+def test_that_init_raises_value_error_for_invalid_item_type():
+    with pytest.raises(ValueError):
+        KnapsackGA(items=["not", "items"], max_weight=10, population_size=5)
+
+
 @pytest.mark.parametrize(
     "rate", [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 )
