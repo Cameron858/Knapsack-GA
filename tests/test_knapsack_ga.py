@@ -39,25 +39,19 @@ invalid_rates = [
 @pytest.mark.parametrize("rate", invalid_rates)
 def test_that_knapsack_raises_value_error_for_invalid_crossover_rates(rate):
 
-    with pytest.raises(
-        ValueError, match="Crossover rate must be between 0 and 1."
-    ) as err:
+    with pytest.raises(ValueError, match="Crossover rate must be between 0 and 1."):
         KnapsackGA([], 0, 10, crossover_rate=rate)
 
 
 @pytest.mark.parametrize("rate", invalid_rates)
 def test_that_knapsack_raises_value_error_for_invalid_mutation_rates(rate):
-    with pytest.raises(
-        ValueError, match="Mutation rate must be between 0 and 1."
-    ) as err:
+    with pytest.raises(ValueError, match="Mutation rate must be between 0 and 1."):
         KnapsackGA([], 0, 10, mutation_rate=rate)
 
 
 @pytest.mark.parametrize("rate", invalid_rates)
 def test_that_knapsack_raises_value_error_for_invalid_elitism_rates(rate):
-    with pytest.raises(
-        ValueError, match="Elitism rate must be between 0 and 1."
-    ) as err:
+    with pytest.raises(ValueError, match="Elitism rate must be between 0 and 1."):
         KnapsackGA([], 0, 10, elitism_rate=rate)
 
 
