@@ -231,3 +231,13 @@ def test_that_tournament_raises_value_error_with_k_greater_than_population(test_
 
     with pytest.raises(ValueError, match="k=5 is greater than population size=3"):
         ga.tournament(population, k=5)
+
+
+def test_that_tournament_with_k_smaller_than_population_returns_population_member(
+    test_items,
+):
+    ga = KnapsackGA(test_items, max_weight=100, population_size=10)
+    population = [[0, 0, 1, 0, 0]] * 10  # all the same
+
+    winner = ga.tournament(population, k=3)
+    assert winner in population
