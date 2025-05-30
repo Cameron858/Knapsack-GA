@@ -4,7 +4,11 @@ from knapsack import Item
 
 @pytest.fixture
 def test_items() -> list[Item]:
-    """Fixture providing a small list of test items."""
+    """Fixture providing a small list of test items.
+
+    Total value = 43
+    Total weight = 23
+    """
     return [
         Item(name="item1", value=10, weight=5),
         Item(name="item2", value=5, weight=3),
