@@ -61,3 +61,15 @@ def test_that_avg_fitness_improves_over_generations(test_items):
     _, result = ga.run(50)
     avg_fitness_over_time = [h[2] for h in result.history]
     assert avg_fitness_over_time[-1] >= avg_fitness_over_time[0]
+
+
+def test_that_run_is_deterministic_with_seed(test_items):
+    ga1 = KnapsackGA(test_items, max_weight=20, population_size=10, seed=999)
+    ga2 = KnapsackGA(test_items, max_weight=20, population_size=10, seed=999)
+
+    n_generations = 50
+    _, result1 = ga1.run(n_generations)
+    _, result2 = ga2.run(n_generations)
+
+    assert result1.best_individual == result2.best_individual
+    assert result1.best_fitness == result2.best_fitness
