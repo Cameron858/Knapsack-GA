@@ -59,3 +59,16 @@ def test_that_knapsack_raises_value_error_for_invalid_elitism_rates(rate):
         ValueError, match="Elitism rate must be between 0 and 1."
     ) as err:
         KnapsackGA([], 0, 10, elitism_rate=rate)
+
+
+def test_that_seed_creates_reproducible_results():
+    # arbitary, as long as both instances get the same seed
+    seed = 19
+
+    ga1 = KnapsackGA([], 0, 10, seed=seed)
+    ga2 = KnapsackGA([], 0, 10, seed=seed)
+
+    pop1 = ga1._generate_population()
+    pop2 = ga2._generate_population()
+
+    assert pop1 == pop2
