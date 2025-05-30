@@ -10,7 +10,7 @@ wheels/
 .venv
 
 # Figures
-*.png
+figures/*.png
 
 # pytest
 *.coverage
