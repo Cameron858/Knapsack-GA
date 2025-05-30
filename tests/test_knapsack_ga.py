@@ -155,3 +155,55 @@ def test_that_mutate_does_not_modify_input_in_place(test_items):
     ga.mutate(ind_pre_mutation)
 
     assert ind_pre_mutation == ind_copy  # ensure no in-place change
+
+
+import pytest
+
+
+def test_that_single_point_crossover_produces_valid_children(mocker):
+    parent1 = [0, 0, 0, 0, 0]
+    parent2 = [1, 1, 1, 1, 1]
+    ga = KnapsackGA([], 0, 10)
+
+    # Mock the crossover point to a known value
+    mocker.patch("random.randint", return_value=2)
+
+    child1, child2 = ga.single_point_crossover(parent1, parent2)
+
+    assert child1 == [0, 0, 1, 1, 1]
+    assert child2 == [1, 1, 0, 0, 0]
+
+
+def test_that_single_point_crossover_with_split_at_one(mocker):
+    parent1 = [1, 1, 1]
+    parent2 = [0, 0, 0]
+    ga = KnapsackGA([], 0, 10)
+
+    mocker.patch("random.randint", return_value=1)
+
+    child1, child2 = ga.single_point_crossover(parent1, parent2)
+
+    assert child1 == [1, 0, 0]
+    assert child2 == [0, 1, 1]
+
+
+def test_that_single_point_crossover_with_split_at_end_minus_one(mocker):
+    parent1 = [1, 0, 0]
+    parent2 = [0, 1, 1]
+    ga = KnapsackGA([], 0, 10)
+
+    mocker.patch("random.randint", return_value=2)
+
+    child1, child2 = ga.single_point_crossover(parent1, parent2)
+
+    assert child1 == [1, 0, 1]
+    assert child2 == [0, 1, 0]
+
+
+def test_that_crossover_raises_error_on_unequal_length():
+    parent1 = [1, 1, 1]
+    parent2 = [0, 0]
+    ga = KnapsackGA([], 0, 10)
+
+    with pytest.raises(AssertionError, match="Parents must be of equal length"):
+        ga.single_point_crossover(parent1, parent2)
