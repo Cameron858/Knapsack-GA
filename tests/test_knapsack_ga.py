@@ -87,8 +87,19 @@ def test_that_generate_population_has_correct_size_and_valid_individuals(test_it
         assert all(gene in (0, 1) for gene in individual)
 
 
-@pytest.mark.parametrize("individual, expected_value", [[0, 0, 0, 0, 0]])
+@pytest.mark.parametrize(
+    "individual, expected_value, max_weight",
+    [
+        ([0, 0, 0, 0, 0], 0, 100),  # arbitarily large max_weight
+        ([0, 1, 1, 0, 0], 20, 100),  # arbitarily large max_weight
+        ([1, 1, 1, 1, 1], 0, 5),  # weight < max weight of test items
+        ([1, 1, 1, 1, 1], 43, 23),  # weight == max weight
+    ],
+)
 def test_that_evaluating_an_individual_returns_correct_values(
-    individual, expected_value, test_items
+    individual, expected_value, max_weight, test_items
 ):
-    pass
+    ga = KnapsackGA(items=test_items, max_weight=max_weight, population_size=5)
+
+    value = ga.evaluate(individual)
+    assert value == expected_value
