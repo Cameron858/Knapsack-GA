@@ -57,7 +57,7 @@ solution = [0, 1, 0, 1, 1]
 
 5. Install the required dependencies using uv:
     ```bash
-    uv pip install -r pyproject.toml
+    uv pip install -e pyproject.toml
     ```
 
 6. (Optional) Run tests to verify the installation:
