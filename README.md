@@ -50,17 +50,22 @@ solution = [0, 1, 0, 1, 1]
     pipx install uv
     ```
 
-4. Install the required dependencies using uv:
+4. Create `venv` with uv:
+    ```bash
+    uv venv
+    ```
+
+5. Install the required dependencies using uv:
     ```bash
     uv pip install -r pyproject.toml
     ```
 
-5. (Optional) Run tests to verify the installation:
+6. (Optional) Run tests to verify the installation:
     ```bash
     uv run pytest
     ```
 
-6. (Optional) Activate a virtual environment (recommended):
+7. (Optional) Activate a virtual environment (recommended):
     ```bash
     .venv\Scripts\activate  # On Windows
     source .venv/bin/activate # On macOS/Linux
