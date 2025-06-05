@@ -149,7 +149,7 @@ class KnapsackGA:
         )
 
         # penalise overweight individuals
-        weight = 0 if weight > self.max_weight else weight
+        value = 0 if weight > self.max_weight else value
 
         return value, weight
 
