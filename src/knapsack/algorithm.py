@@ -142,6 +142,7 @@ class KnapsackGA:
         weight = sum(
             item.weight for item, selected in zip(self.items, individual) if selected
         )
+        weight = round(weight, 2)
 
         if weight > self.max_weight:
             value = 0.0
