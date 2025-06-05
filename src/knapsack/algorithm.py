@@ -119,12 +119,13 @@ class KnapsackGA:
             "elitism_rate": self.elitism_rate,
         }
 
-    def evaluate(self, individual: Individual) -> float:
+    def evaluate(self, individual: Individual) -> tuple[float, float]:
         """
-        Evaluate the fitness of an individual.
+        Evaluate the fitness of an individual solution for the knapsack problem.
 
-        The fitness is the total value of selected items, unless the total weight
-        exceeds the knapsack capacity, in which case the fitness is 0.
+        This method calculates both the total value and weight of the items
+        selected by the individual. If the total weight exceeds the knapsack's
+        capacity (max_weight), the value is set to 0 to indicate an invalid solution.
 
         Parameters
         ----------
@@ -133,19 +134,24 @@ class KnapsackGA:
 
         Returns
         -------
-        float
-            The total value of selected items, or 0 if overweight.
+        tuple[float, float]
+            A tuple containing:
+            - The fitness value (total value of selected items, or 0 if overweight)
+            - The total weight of selected items
         """
         weight = sum(
             item.weight for item, selected in zip(self.items, individual) if selected
         )
+        weight = round(weight, 2)
 
-        if weight > self.max_weight:
-            return 0.0
-
-        return sum(
+        value = sum(
             item.value for item, selected in zip(self.items, individual) if selected
         )
+
+        # penalise overweight individuals
+        value = 0 if weight > self.max_weight else value
+
+        return value, weight
 
     def mutate(self, individual: Individual) -> Individual:
         """
@@ -236,7 +242,7 @@ class KnapsackGA:
             )
 
         bracket = random.sample(population, k=k)
-        fitnesses = [(i, self.evaluate(i)) for i in bracket]
+        fitnesses = [(i, self.evaluate(i)[0]) for i in bracket]
         sorted_bracket = list(sorted(fitnesses, key=lambda x: x[1], reverse=True))
 
         return sorted_bracket[0][0]
@@ -285,25 +291,38 @@ class KnapsackGA:
 
         population = self._generate_population()
 
-        for generation in range(generations):
-            fitnesses = [(ind, self.evaluate(ind)) for ind in population]
-            sorted_pop = sorted(fitnesses, key=lambda x: x[1], reverse=True)
+        for generation in range(generations + 1):
+            # list [(value, weight), ...]
+            fitness_results = [self.evaluate(individual) for individual in population]
+
+            # Create tuples of (individual, value) for each solution
+            individual_fitness_pairs = [
+                (individual, result[0])
+                for individual, result in zip(population, fitness_results)
+            ]
+
+            # Sort population by fitness value in descending order (best solutions first)
+            sorted_population = sorted(
+                individual_fitness_pairs, key=lambda pair: pair[1], reverse=True
+            )
 
             # Stats update
-            best_pop_ind, best_pop_fitness = sorted_pop[0]
+            best_pop_ind, best_pop_fitness = sorted_population[0]
             if best_pop_fitness > best_fitness:
                 best_fitness = best_pop_fitness
                 best_individual = best_pop_ind
 
-            avg_pop_fitness = sum(f for _, f in fitnesses) / len(fitnesses)
-            history.append((generation, best_fitness, avg_pop_fitness))
+            avg_value = sum(value for value, _ in fitness_results) / len(
+                fitness_results
+            )
+            history.append((generation, best_fitness, avg_value, fitness_results))
 
             # Create next generation
             next_generation = []
 
             # Elitism
             n_elite = max(1, int(self.elitism_rate * self.population_size))
-            elites = [ind for ind, _ in sorted_pop[:n_elite]]
+            elites = [ind for ind, _ in sorted_population[:n_elite]]
             next_generation.extend(elites)
 
             # Fill rest of next generation

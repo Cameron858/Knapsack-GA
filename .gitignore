@@ -9,8 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
-# Figures
-figures/*.png
-
 # pytest
 *.coverage
+
+# results
+results/*
+!results/.gitkeep
