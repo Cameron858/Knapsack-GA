@@ -119,12 +119,13 @@ class KnapsackGA:
             "elitism_rate": self.elitism_rate,
         }
 
-    def evaluate(self, individual: Individual) -> float:
+    def evaluate(self, individual: Individual) -> tuple[float, float]:
         """
-        Evaluate the fitness of an individual.
+        Evaluate the fitness of an individual solution for the knapsack problem.
 
-        The fitness is the total value of selected items, unless the total weight
-        exceeds the knapsack capacity, in which case the fitness is 0.
+        This method calculates both the total value and weight of the items
+        selected by the individual. If the total weight exceeds the knapsack's
+        capacity (max_weight), the value is set to 0 to indicate an invalid solution.
 
         Parameters
         ----------
@@ -133,19 +134,23 @@ class KnapsackGA:
 
         Returns
         -------
-        float
-            The total value of selected items, or 0 if overweight.
+        tuple[float, float]
+            A tuple containing:
+            - The fitness value (total value of selected items, or 0 if overweight)
+            - The total weight of selected items
         """
         weight = sum(
             item.weight for item, selected in zip(self.items, individual) if selected
         )
 
         if weight > self.max_weight:
-            return 0.0
+            value = 0.0
+        else:
+            value = sum(
+                item.value for item, selected in zip(self.items, individual) if selected
+            )
 
-        return sum(
-            item.value for item, selected in zip(self.items, individual) if selected
-        )
+        return value, weight
 
     def mutate(self, individual: Individual) -> Individual:
         """
