@@ -290,7 +290,7 @@ class KnapsackGA:
 
         population = self._generate_population()
 
-        for generation in range(generations):
+        for generation in range(generations + 1):
             # list [(value, weight), ...]
             fitness_results = [self.evaluate(individual) for individual in population]
 
