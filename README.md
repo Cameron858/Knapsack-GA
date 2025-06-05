@@ -55,22 +55,27 @@ solution = [0, 1, 0, 1, 1]
     uv venv
     ```
 
-5. Install the required dependencies using uv:
-    ```bash
-    uv pip install -e pyproject.toml
-    ```
-
-6. (Optional) Run tests to verify the installation:
-    ```bash
-    uv run pytest
-    ```
-
-7. (Optional) Activate a virtual environment (recommended):
+5. Activate the virtual environment:
     ```bash
     .venv\Scripts\activate  # On Windows
     source .venv/bin/activate # On macOS/Linux
     ```
 
+6. Install the required dependencies using uv:
+    ```bash
+    uv pip install -e .
+    ```
+
+7. (Optional) Run tests to verify the installation:
+    ```bash
+    pytest
+    ```
+
+8. When you're done working, deactivate the virtual environment:
+    ```bash
+    deactivate
+    ```
+    
 ## Usage Example
 
 ```python
